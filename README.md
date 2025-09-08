@@ -2,6 +2,20 @@
 
 A polished React + TypeScript weather app using Open‑Meteo. It auto‑detects your location, supports fast city search, and presents rich current and 7‑day forecasts with a clean, animated UI.
 
+## Contributors
+
+Miles Pines, mmfire118, milespines@college.harvard.edu
+
+## Links
+
+Bolt (initial setup): https://bolt.new/~/sb1-nuqrrfk8
+Github: https://github.com/mmfire118/weather-api-app
+Netlify: https://weatherflow-open-weather.netlify.app/
+
+## Development
+
+I initially used Bolt for the basic setup, then iterated, debugged, and added new features using Cursor. This project took 3 hours of development time.
+
 ## Features
 
 - Current weather with dynamic icon, description, sunrise/sunset window, and details:
