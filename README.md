@@ -9,7 +9,9 @@ Miles Pines, mmfire118, milespines@college.harvard.edu
 ## Links
 
 Bolt (initial setup): https://bolt.new/~/sb1-nuqrrfk8
+
 Github: https://github.com/mmfire118/weather-api-app
+
 Netlify: https://weatherflow-open-weather.netlify.app/
 
 ## Development
