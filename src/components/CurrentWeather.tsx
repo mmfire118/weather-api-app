@@ -90,7 +90,7 @@ export const CurrentWeather: React.FC<CurrentWeatherProps> = ({
       </div>
 
       {/* Main weather display */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div className="flex items-center space-x-4">
           <div className="bg-white/20 rounded-full p-4">
             <WeatherIcon className="w-12 h-12 text-white" />
@@ -103,8 +103,8 @@ export const CurrentWeather: React.FC<CurrentWeatherProps> = ({
           </div>
         </div>
         
-        <div className="text-right">
-          <div className="text-white/70 text-sm mb-2">
+        <div className="w-full md:w-auto md:text-right">
+          <div className="text-white/70 text-sm mb-2 hidden md:block">
             {weather.current.is_day ? 'Day' : 'Night'}
           </div>
           <div className="bg-white/20 rounded-lg px-3 py-2">

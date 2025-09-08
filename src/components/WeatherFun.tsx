@@ -1,5 +1,5 @@
-import React from 'react';
-import { Wind, Cloud, Umbrella, Sun, Shirt, Droplets, Gauge } from 'lucide-react';
+import React, { useState } from 'react';
+import { Wind, Cloud, Umbrella, Sun, Shirt, Droplets, Gauge, ChevronDown } from 'lucide-react';
 import { WeatherData } from '../types/weather';
 import { formatTemperature, formatWindDirection, formatDate } from '../utils/weatherUtils';
 
@@ -89,13 +89,26 @@ export const WeatherFun: React.FC<WeatherFunProps> = ({ weather, temperatureUnit
 
   const comfort = humidityComfort(humidity);
   const act = activityScore();
+  const [isExpanded, setIsExpanded] = useState(true);
 
   return (
     <div className="mt-6 bg-white/10 backdrop-blur-md rounded-2xl p-5 shadow-xl border border-white/20">
-      <h3 className="text-lg font-semibold text-white mb-4">Outfit & Extras</h3>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-white">Outfit & Extras</h3>
+        <button
+          onClick={() => setIsExpanded((v) => !v)}
+          aria-expanded={isExpanded}
+          title={isExpanded ? 'Collapse' : 'Expand'}
+          className="text-white/80 hover:text-white transition-colors"
+        >
+          <ChevronDown className={`w-5 h-5 transition-transform ${isExpanded ? '' : '-rotate-90'}`} />
+        </button>
+      </div>
+      {isExpanded && (
+        <>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* Outfit Helper */}
-        <div className="bg-white/10 rounded-xl p-4 border border-white/20">
+        <div className="bg-white/10 rounded-xl p-4 border border-white/20" title="Suggestion based on feels-like temp, wind, rain chance, and UV">
           <div className="flex items-center space-x-3 mb-2">
             <Shirt className="w-5 h-5 text-white/80" />
             <div className="text-white/70 text-sm">Outfit helper</div>
@@ -123,7 +136,7 @@ export const WeatherFun: React.FC<WeatherFunProps> = ({ weather, temperatureUnit
         </div>
 
         {/* Wind Compass */}
-        <div className="bg-white/10 rounded-xl p-4 border border-white/20">
+        <div className="bg-white/10 rounded-xl p-4 border border-white/20" title="Arrow shows wind direction (from). Speed and gusts in km/h">
           <div className="flex items-center space-x-3 mb-2">
             <Wind className="w-5 h-5 text-white/80" />
             <div className="text-white/70 text-sm">Wind</div>
@@ -145,7 +158,7 @@ export const WeatherFun: React.FC<WeatherFunProps> = ({ weather, temperatureUnit
 
         {/* Sky Meter */
         }
-        <div className="bg-white/10 rounded-xl p-4 border border-white/20">
+        <div className="bg-white/10 rounded-xl p-4 border border-white/20" title="Current cloud cover percentage">
           <div className="flex items-center space-x-3 mb-2">
             <Cloud className="w-5 h-5 text-white/80" />
             <div className="text-white/70 text-sm">Sky meter</div>
@@ -160,7 +173,7 @@ export const WeatherFun: React.FC<WeatherFunProps> = ({ weather, temperatureUnit
         </div>
 
         {/* Sunshine Hours */}
-        <div className="bg-white/10 rounded-xl p-4 border border-white/20">
+        <div className="bg-white/10 rounded-xl p-4 border border-white/20" title="Estimated sunshine duration today and share of daylight">
           <div className="flex items-center space-x-3 mb-2">
             <Sun className="w-5 h-5 text-yellow-300" />
             <div className="text-white/70 text-sm">Sunshine today</div>
@@ -177,7 +190,7 @@ export const WeatherFun: React.FC<WeatherFunProps> = ({ weather, temperatureUnit
       </div>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Humidity Comfort */}
-        <div className="bg-white/10 rounded-xl p-4 border border-white/20">
+        <div className="bg-white/10 rounded-xl p-4 border border-white/20" title="Comfort range ~30–60% RH; simple qualitative scale">
           <div className="flex items-center space-x-3 mb-2">
             <Droplets className="w-5 h-5 text-white/80" />
             <div className="text-white/70 text-sm">Humidity comfort</div>
@@ -186,7 +199,7 @@ export const WeatherFun: React.FC<WeatherFunProps> = ({ weather, temperatureUnit
         </div>
 
         {/* Feels-like Delta */}
-        <div className="bg-white/10 rounded-xl p-4 border border-white/20">
+        <div className="bg-white/10 rounded-xl p-4 border border-white/20" title="Difference between apparent and actual temperature">
           <div className="flex items-center space-x-3 mb-2">
             <Gauge className="w-5 h-5 text-white/80" />
             <div className="text-white/70 text-sm">Feels-like delta</div>
@@ -197,7 +210,7 @@ export const WeatherFun: React.FC<WeatherFunProps> = ({ weather, temperatureUnit
         </div>
 
         {/* Activity Score */}
-        <div className="bg-white/10 rounded-xl p-4 border border-white/20">
+        <div className="bg-white/10 rounded-xl p-4 border border-white/20" title="Heuristic score using temp, wind, rain chance, and clouds">
           <div className="flex items-center space-x-3 mb-2">
             <Sun className="w-5 h-5 text-white/80" />
             <div className="text-white/70 text-sm">Outdoor score</div>
@@ -213,14 +226,16 @@ export const WeatherFun: React.FC<WeatherFunProps> = ({ weather, temperatureUnit
       </div>
       <div className="mt-5 p-4 bg-white/10 rounded-xl border border-white/20 grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <div className="text-white/70 text-xs">Hottest day</div>
+          <div className="text-white/70 text-xs">Hottest day (next 7 days)</div>
           <div className="text-white font-medium">{hottestLabel} • {formatTemperature(maxTemps[hottestIndex], temperatureUnit)}</div>
         </div>
         <div>
-          <div className="text-white/70 text-xs">Coldest night</div>
+          <div className="text-white/70 text-xs">Coldest night (next 7 days)</div>
           <div className="text-white font-medium">{coldestLabel} • {formatTemperature(minTemps[coldestIndex], temperatureUnit)}</div>
         </div>
       </div>
+        </>
+      )}
     </div>
   );
 };
